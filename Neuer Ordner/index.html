@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minivalintines-Proposal</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;600&display=swap");
+
+      :root {
+        --rose: #ff5a7a;
+        --rose-dark: #e14562;
+        --cream: #fff7f9;
+        --berry: #5b1a2b;
+        --sparkle: #ffd1dc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 60px 18px;
+        font-family: "Montserrat", Arial, sans-serif;
+        color: var(--berry);
+        background:
+          radial-gradient(1200px 600px at 20% -10%, #ffe2ea 0%, transparent 60%),
+          radial-gradient(1000px 700px at 110% 10%, #ffeef2 0%, transparent 55%),
+          linear-gradient(135deg, #fff1f5 0%, #fff 55%, #fff6f8 100%);
+        overflow: hidden;
+      }
+      .hearts {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.7;
+        background-image:
+          radial-gradient(circle at 20% 30%, var(--sparkle) 0 2px, transparent 3px),
+          radial-gradient(circle at 80% 20%, var(--sparkle) 0 2px, transparent 3px),
+          radial-gradient(circle at 30% 80%, var(--sparkle) 0 2px, transparent 3px),
+          radial-gradient(circle at 70% 70%, var(--sparkle) 0 2px, transparent 3px);
+        animation: float 10s linear infinite;
+      }
+      @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-12px); }
+        100% { transform: translateY(0); }
+      }
+      .card {
+        width: min(680px, 94vw);
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(255, 90, 122, 0.25);
+        border-radius: 24px;
+        padding: 36px 26px 28px;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(255, 90, 122, 0.18);
+        position: relative;
+        backdrop-filter: blur(6px);
+      }
+      .badge {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--rose-dark);
+        background: #ffe3ea;
+        margin-bottom: 12px;
+      }
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(30px, 4vw, 44px);
+        margin: 6px 0 10px;
+        color: var(--rose-dark);
+      }
+      .lead {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      .question {
+        font-weight: 600;
+        margin-top: 12px;
+      }
+      .actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 18px;
+        position: relative;
+        min-height: 64px;
+      }
+      button {
+        padding: 12px 26px;
+        font-size: 18px;
+        border-radius: 14px;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      #yes {
+        background: linear-gradient(135deg, var(--rose), #ff8fb3);
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(255, 90, 122, 0.35);
+      }
+      #yes:hover { transform: translateY(-2px) scale(1.02); }
+      #no {
+        background: #f0f0f0;
+        color: #444;
+        position: absolute;
+      }
+      .footer {
+        font-size: 12px;
+        opacity: 0.7;
+        margin-top: 18px;
+      }
+      .music-toggle {
+        margin-top: 14px;
+        font-size: 14px;
+        background: #fff0f4;
+        color: var(--rose-dark);
+        border: 1px solid rgba(255, 90, 122, 0.25);
+      }
+      .confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .confetti span {
+        position: absolute;
+        top: -10%;
+        font-size: 22px;
+        animation: fall 3.5s linear forwards;
+      }
+      @keyframes fall {
+        0% { transform: translateY(-10%) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(120vh) rotate(360deg); opacity: 0.9; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts"></div>
+    <main class="card">
+      <div class="badge">Valintines Special</div>
+      <h1>Minivalintines-Proposal 🥰💖</h1>
+      <p class="lead">Will you go zum Markelini mit mir und buy Brotilini und Softgetränkelinis…</p>
+      <p class="lead question">und offiziell mein Valentine‑Lini sein? 😌</p>
+
+      <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="cute gif" />
+
+      <div class="actions">
+        <button id="yes" onclick="sayYes()">Yes 💖</button>
+        <button id="no" onmouseover="moveButton()">Kollege überlegt dir das nochmal</button>
+      </div>
+
+      <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">Musik: Aus</button>
+
+      <div class="footer">Made with extra Lini‑Love</div>
+    </main>
+
+    <div class="confetti" id="confetti"></div>
+
+    <audio id="bgMusic" preload="none"></audio>
+
+    <script>
+      function moveButton() {
+        const button = document.getElementById("no");
+        const card = document.querySelector(".card");
+        const rect = card.getBoundingClientRect();
+        const maxX = rect.width - 120;
+        const maxY = rect.height - 80;
+        button.style.left = Math.max(0, Math.random() * maxX) + "px";
+        button.style.top = Math.max(0, Math.random() * maxY) + "px";
+      }
+
+      function launchConfetti() {
+        const confetti = document.getElementById("confetti");
+        confetti.innerHTML = "";
+        const count = 28;
+        for (let i = 0; i < count; i++) {
+          const span = document.createElement("span");
+          span.textContent = Math.random() > 0.5 ? "💖" : "✨";
+          span.style.left = Math.random() * 100 + "vw";
+          span.style.animationDelay = Math.random() * 0.4 + "s";
+          confetti.appendChild(span);
+        }
+        setTimeout(() => { confetti.innerHTML = ""; }, 4000);
+      }
+
+      function toggleMusic() {
+        const audio = document.getElementById("bgMusic");
+        const btn = document.getElementById("musicToggle");
+        if (!audio.src) {
+          alert("Bitte gib mir eine Musik‑Datei oder URL, dann baue ich sie ein.");
+          return;
+        }
+        if (audio.paused) {
+          audio.play();
+          btn.textContent = "Musik: An";
+        } else {
+          audio.pause();
+          btn.textContent = "Musik: Aus";
+        }
+      }
+
+      function sayYes() {
+        launchConfetti();
+        document.querySelector(".card").innerHTML = `
+          <div class="badge">It’s a yes ✨</div>
+          <h1>MINI‑LINI 💖</h1>
+          <p class="lead">Best decision of your lifelini.</p>
+          <p class="lead">Now we go eat Pasta‑Lini.</p>
+          <p class="footer">Date set. Smiles guaranteed.</p>
+        `;
+      }
+    </script>
+  </body>
+</html>
